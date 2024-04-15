@@ -41,15 +41,15 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @GetMapping("user-update/{id}")
+    @GetMapping("/user-update/{id}")
     public String createUpdateForm(Model model, @PathVariable("id") int id){
         model.addAttribute("user", userService.show(id));
         return "user-update";
     }
 
-    @PostMapping("user-update/{id}")
-    public String updateByID(@ModelAttribute("user") User user, @PathVariable("id") int id){
-        userService.updateByID(user, id);
+    @PostMapping("/user-update/{id}")
+    public String updateByID(User user){
+        userService.updateByID(user);
         return "redirect:/users";
     }
 }

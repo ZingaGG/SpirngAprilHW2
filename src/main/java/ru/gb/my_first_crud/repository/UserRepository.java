@@ -34,8 +34,16 @@ public class UserRepository {
     }
 
     public User show(int id){
-        return jdbc.query("SELECT * FROM userTable WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(User.class))
-                .stream().findAny().orElse(null);
+        String sql = "SELECT id,firstName,lastName FROM userTable WHERE id = ?";
+        return jdbc.queryForObject(sql,
+                (resultSet, rowNum) -> {
+                    User newUser = new User();
+                    newUser.setId(Integer.parseInt(resultSet.getString("id")));
+                    newUser.setFirstName(resultSet.getString("firstName"));
+                    newUser.setLastName(resultSet.getString("lastName"));
+                    return newUser;
+                },
+                id);
     }
 
     public User save(User user) {
@@ -49,8 +57,8 @@ public class UserRepository {
         jdbc.update(sql, id);
     }
 
-    public void updateById(int id, User updatedUser){
+    public void updateById(User updatedUser){
         String sql = "UPDATE userTable SET firstName = ?, lastName= ? WHERE id = ?";
-        jdbc.update(sql, updatedUser.getFirstName(), updatedUser.getLastName(), id);
+        jdbc.update(sql, updatedUser.getFirstName(), updatedUser.getLastName(), updatedUser.getId());
     }
 }

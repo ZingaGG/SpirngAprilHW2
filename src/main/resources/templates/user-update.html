@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="form-block">
-    <form method="post" th:action="@{/user-update/*{id}}" th:object="${user}">
+    <form action="#" th:action="@{/user-update/*{id}}" th:object="${user}" method="post" >
         <label class="form-label" for="id">ID</label>
         <input class="form-control" readonly type="number" th:field="*{id}" id="id" placeholder="ID">
         <br/>
